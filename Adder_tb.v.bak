@@ -1,0 +1,48 @@
+`timescale 10ns/1ns
+module adder_tb;
+
+
+//change inputs to reg and outputs as wire
+parameter n=4;
+reg [ (n-1):0] in1,in2;
+wire[n:0] sum;
+integer i;
+
+
+//instantiate the testing module
+adder testing ( in1, in2, sum);
+
+initial
+begin
+
+  for(i=0; i<20; i = i+1)
+    begin
+      in1 <= {$random}%16;
+      in2 <= {$random}%16;
+      printheader();
+      printresult();
+    end
+
+  $finish
+  
+end
+
+
+
+task printresult();
+  if(sum == in1 + in2)
+    $monitor("%d    %d    %d    CORRECT :)", in1,in2,sum);
+  else
+    $monitor("%d    %d    %d    WRONG :(", in1,in2,sum);
+endtask
+
+
+task printheader();
+  
+  $display(" Input 1      Input 2       Sum       STATUS\n");
+  
+  
+endtask
+
+
+endmodule
